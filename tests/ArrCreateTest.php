@@ -13,7 +13,7 @@ namespace NorseBlue\Sekkr\Tests;
 use NorseBlue\Sekkr\Arr;
 use PHPUnit\Framework\TestCase;
 
-class ArrGetSetTest extends TestCase
+class ArrCreateTest extends TestCase
 {
     /**
      * @test that the Arr object is created with empty items.
