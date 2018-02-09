@@ -11,15 +11,19 @@
 namespace NorseBlue\Sekkr;
 
 use ArrayAccess;
+use ArrayIterator;
 use Countable;
 use InvalidArgumentException;
+use IteratorAggregate;
+use JsonSerializable;
+use Traversable;
 
 /**
  * NorseBlue\Sekkr\Arr
  *
  * @see https://github.com/adbario/php-dot-notation Based on the work of Riku Särkinen (@adbario)
  */
-class Arr implements ArrayAccess, Countable
+class Arr implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
 {
     /**
      * The underlying array.
@@ -108,14 +112,38 @@ class Arr implements ArrayAccess, Countable
     //region ========== Implements Countable ==========
     /**
      * Count the number of items for a specified key.
-     * 
+     *
      * @param int|string|null $key
-     * 
+     *
      * @return int
      */
     public function count($key = null): int
     {
         return count($this->get($key));
+    }
+    //endregion
+
+    //region ========== Implements IteratorAggregate ==========
+    /**
+     * Get an iterator for the stored items.
+     *
+     * @return Traversable
+     */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->items);
+    }
+    //endregion
+
+    //region ========== Implements JsonSerializable ==========
+    /**
+     * Return items for JSON serialization.
+     *
+     * @return array
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->items;
     }
     //endregion
 
