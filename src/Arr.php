@@ -11,6 +11,7 @@
 namespace NorseBlue\Sekkr;
 
 use ArrayAccess;
+use Countable;
 use InvalidArgumentException;
 
 /**
@@ -18,7 +19,7 @@ use InvalidArgumentException;
  *
  * @see https://github.com/adbario/php-dot-notation Based on the work of Riku Särkinen (@adbario)
  */
-class Arr implements ArrayAccess
+class Arr implements ArrayAccess, Countable
 {
     /**
      * The underlying array.
@@ -101,6 +102,20 @@ class Arr implements ArrayAccess
     public function offsetUnset($key): void
     {
         $this->delete($key);
+    }
+    //endregion
+
+    //region ========== Implements Countable ==========
+    /**
+     * Count the number of items for a specified key.
+     * 
+     * @param int|string|null $key
+     * 
+     * @return int
+     */
+    public function count($key = null): int
+    {
+        return count($this->get($key));
     }
     //endregion
 
