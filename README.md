@@ -66,9 +66,9 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/NorseBlue/Sekkr.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/NorseBlue/Sekkr.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/norseblue/magus
+[link-packagist]: https://packagist.org/packages/norse-blue/sekkr
 [link-travis]: https://travis-ci.org/NorseBlue/Sekkr
 [link-scrutinizer]: https://scrutinizer-ci.com/g/NorseBlue/Sekkr/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/NorseBlue/Sekkr
-[link-downloads]: https://packagist.org/packages/norseblue/magus
+[link-downloads]: https://packagist.org/packages/norse-blue/sekkr
 [link-author]: https://github.com/NorseBlue
