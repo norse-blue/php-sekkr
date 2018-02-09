@@ -25,7 +25,6 @@ class ArrEmptyTest extends TestCase
         $this->assertTrue($arr->isEmpty());
     }
 
-
     /**
      * @test that the Arr object is not empty.
      */
@@ -37,5 +36,19 @@ class ArrEmptyTest extends TestCase
         ]);
 
         $this->assertFalse($arr->isEmpty());
+    }
+
+    /**
+     * @test that all given items are empty.
+     */
+    public function all_items_are_empty()
+    {
+        $arr = new Arr([
+            'foo' => 'bar',
+            'baz' => 'qux',
+        ]);
+
+        $this->assertTrue($arr->isEmpty(['bar', 'qux']));
+        $this->assertFalse($arr->isEmpty(['foo', 'baz']));
     }
 }

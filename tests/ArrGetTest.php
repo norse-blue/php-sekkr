@@ -42,6 +42,7 @@ class ArrGetTest extends TestCase
             ],
         ], $arr3->get());
     }
+
     /**
      * @test that the get method gets the correct value for a simple key.
      */
@@ -51,6 +52,17 @@ class ArrGetTest extends TestCase
 
         $this->assertEquals('bar', $arr->get('foo'));
         $this->assertEquals('qux', $arr->get('baz'));
+    }
+    
+    /**
+     * @test that the get method gets the default value when simple key does not exist.
+     */
+    public function get_method_gets_default_value_simple_key_not_exists()
+    {
+        $arr = new Arr(['foo' => 'bar', 'baz' => 'qux']);
+
+        $this->assertEquals(null, $arr->get('corge'));
+        $this->assertEquals(9, $arr->get('grault', 9));
     }
 
     /**
@@ -69,6 +81,24 @@ class ArrGetTest extends TestCase
 
         $this->assertEquals('baz', $arr->get('foo.bar'));
         $this->assertEquals('grault', $arr->get('qux.corge'));
+    }
+    
+    /**
+     * @test that the get method gets the default value when composite key does not exist.
+     */
+    public function get_method_gets_default_value_composite_key_not_exists()
+    {
+        $arr = new Arr([
+            'foo' => [
+                'bar' => 'baz',
+            ],
+            'qux' => [
+                'corge' => 'grault',
+            ],
+        ]);
+
+        $this->assertEquals(null, $arr->get('gradly.waldo'));
+        $this->assertEquals(9, $arr->get('fred.plugh', 9));
     }
 
     /**

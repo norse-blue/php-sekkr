@@ -46,8 +46,6 @@ class Arr implements ArrayAccess
      * Creates a new instance.
      *
      * @param  array $items
-     *
-     * @return Norseblue\Sekkr\Arr
      */
     public function __construct(array $items = [])
     {
