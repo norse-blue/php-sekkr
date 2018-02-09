@@ -59,12 +59,12 @@ If you discover any security related issues, please email `dev@norse.blue` inste
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/NorseBlue/Sekkr.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/norse-blue/sekkr.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/NorseBlue/Sekkr/master.svg?style=flat-square
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/NorseBlue/Sekkr.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/NorseBlue/Sekkr.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/NorseBlue/Sekkr.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/norse-blue/sekkr.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/norse-blue/sekkr
 [link-travis]: https://travis-ci.org/NorseBlue/Sekkr
