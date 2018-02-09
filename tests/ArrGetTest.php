@@ -97,7 +97,7 @@ class ArrGetTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(null, $arr->get('gradly.waldo'));
+        $this->assertEquals(null, $arr->get('garply.waldo'));
         $this->assertEquals(9, $arr->get('fred.plugh', 9));
     }
 

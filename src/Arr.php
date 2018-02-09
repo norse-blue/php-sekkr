@@ -119,7 +119,9 @@ class Arr implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
      */
     public function count($key = null): int
     {
-        return count($this->get($key));
+        $value = $this->get($key);
+
+        return (is_array($value) || $value instanceof Countable)? count($value) : 0;
     }
     //endregion
 
