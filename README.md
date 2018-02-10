@@ -7,9 +7,9 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Sekkr is a package for array manipulation.
+Sekkr is a framework agnostic package for array manipulation.
 
-It is based on the work of Riku Särkinen (@adbario) at [adbario/php-dot-notation](https://github.com/adbario/php-dot-notation).
+It is based on the work of Riku Särkinen ([@adbario](https://github.com/adbario)) at [adbario/php-dot-notation](https://github.com/adbario/php-dot-notation).
 
 ## Install
 
@@ -53,7 +53,7 @@ If you discover any security related issues, please email `dev@norse.blue` inste
 - [NorseBlue][link-author]
 - [Axel Pardemann](https://github.com/axelitus)
 - [Riku Särkinen](https://github.com/adbario)
-- [All Contributors](.github/CONTRIBUTORS.md)
+- [All Contributors][link-contributors]
 
 ## License
 
@@ -72,3 +72,4 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-code-quality]: https://scrutinizer-ci.com/g/NorseBlue/Sekkr
 [link-downloads]: https://packagist.org/packages/norse-blue/sekkr
 [link-author]: https://github.com/NorseBlue
+[link-contributors]: https://github.com/NorseBlue/Sekkr/graphs/contributors

@@ -1,7 +1,7 @@
 {
     "name": "norse-blue/sekkr",
     "type": "library",
-    "description": "Sekkr is a package for array manipulation.",
+    "description": "Sekkr is a framework agnostic package for array manipulation.",
     "keywords": [
         "NorseBlue",
         "Sekkr",
