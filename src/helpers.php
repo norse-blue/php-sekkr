@@ -9,7 +9,7 @@
 
 use NorseBlue\Sekkr\Arr as SekkrArr;
 
-if (! function_exists('sekkrarr')) {
+if (! function_exists('sekkr_arr')) {
     /**
      * Creates a new NorseBlue\Sekkr\Arr object with the given array.
      *
@@ -17,7 +17,7 @@ if (! function_exists('sekkrarr')) {
      *
      * @return NorseBlue\Sekkr\Arr
      */
-    function sekkrarr(array $array)
+    function sekkr_arr(array $array = [])
     {
         return SekkrArr::make($array);
     }

@@ -70,11 +70,21 @@ class ArrCreateTest extends TestCase
     }
 
     /**
+     * @test that an empty Arr object is created with the helper function.
+     */
+    public function empty_arr_is_created_with_helper_function()
+    {
+        $arr = sekkr_arr();
+
+        $this->assertEquals([], $arr->all());
+    }
+
+    /**
      * @test that the Arr object is created with the helper function.
      */
     public function arr_is_created_with_helper_function()
     {
-        $arr = sekkrarr([
+        $arr = sekkr_arr([
             'foo' => [
                 'bar' => 'baz'
             ],
