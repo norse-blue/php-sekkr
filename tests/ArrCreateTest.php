@@ -1,7 +1,6 @@
 <?php
 /**
- * Sekkr
- * A package for array manipulation.
+ * Sekkr - A framework agnostic package for array manipulation.
  *
  * @author  Axel Pardemann <axel.pardemann@norse.blue
  * @link    https://github.com/NorseBlue/Sekkr
