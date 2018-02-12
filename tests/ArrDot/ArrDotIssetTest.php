@@ -9,25 +9,30 @@
 
 namespace NorseBlue\Sekkr\Tests;
 
-use NorseBlue\Sekkr\Arr;
+use NorseBlue\Sekkr\ArrDot;
 use PHPUnit\Framework\TestCase;
 
-class ArrIssetTest extends TestCase
+/**
+ * Class ArrDotIssetTest
+ *
+ * @package NorseBlue\Sekkr\Tests
+ */
+class ArrDotIssetTest extends TestCase
 {
     /**
      * @test that the given key is or not set.
      */
     public function key_is_or_not_set()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => 'bar',
             'baz.qux' => ' corge',
         ]);
 
-        $this->assertTrue(isset($arr['foo']));
-        $this->assertTrue(isset($arr['baz.qux']));
-        $this->assertFalse(isset($arr['foo.bar']));
-        $this->assertFalse(isset($arr['grault']));
-        $this->assertFalse(isset($arr['garply.waldo']));
+        $this->assertTrue(isset($arr_dot['foo']));
+        $this->assertTrue(isset($arr_dot['baz.qux']));
+        $this->assertFalse(isset($arr_dot['foo.bar']));
+        $this->assertFalse(isset($arr_dot['grault']));
+        $this->assertFalse(isset($arr_dot['garply.waldo']));
     }
 }

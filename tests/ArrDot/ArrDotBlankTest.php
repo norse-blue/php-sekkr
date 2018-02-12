@@ -9,32 +9,37 @@
 
 namespace NorseBlue\Sekkr\Tests;
 
-use NorseBlue\Sekkr\Arr;
+use NorseBlue\Sekkr\ArrDot;
 use PHPUnit\Framework\TestCase;
 
-class ArrEmptyTest extends TestCase
+/**
+ * Class ArrDotBlankTest
+ *
+ * @package NorseBlue\Sekkr\Tests
+ */
+class ArrDotBlankTest extends TestCase
 {
     /**
-     * @test that the Arr object is empty.
+     * @test that the ArrDot object is empty.
      */
     public function arr_object_is_empty()
     {
-        $arr = new Arr;
+        $arr_dot = new ArrDot;
 
-        $this->assertTrue($arr->isEmpty());
+        $this->assertTrue($arr_dot->blank());
     }
 
     /**
-     * @test that the Arr object is not empty.
+     * @test that the ArrDot object is not empty.
      */
     public function arr_object_is_not_empty()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => 'bar',
             'baz' => 'qux',
         ]);
 
-        $this->assertFalse($arr->isEmpty());
+        $this->assertFalse($arr_dot->blank());
     }
 
     /**
@@ -42,12 +47,12 @@ class ArrEmptyTest extends TestCase
      */
     public function all_items_are_empty()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => 'bar',
             'baz' => 'qux',
         ]);
 
-        $this->assertTrue($arr->isEmpty(['bar', 'qux']));
-        $this->assertFalse($arr->isEmpty(['foo', 'baz']));
+        $this->assertTrue($arr_dot->blank(['bar', 'qux']));
+        $this->assertFalse($arr_dot->blank(['foo', 'baz']));
     }
 }

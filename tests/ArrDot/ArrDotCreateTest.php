@@ -9,37 +9,42 @@
 
 namespace NorseBlue\Sekkr\Tests;
 
-use NorseBlue\Sekkr\Arr;
+use NorseBlue\Sekkr\ArrDot;
 use PHPUnit\Framework\TestCase;
 
-class ArrCreateTest extends TestCase
+/**
+ * Class ArrDotCreateTest
+ *
+ * @package NorseBlue\Sekkr\Tests
+ */
+class ArrDotCreateTest extends TestCase
 {
     /**
-     * @test that the Arr object is created with empty items.
+     * @test that the ArrDot object is created with empty items.
      */
     public function arr_is_created_with_empty_items()
     {
-        $arr = new Arr;
+        $arr_dot = new ArrDot;
 
-        $this->assertEquals([], $arr->all());
+        $this->assertEquals([], $arr_dot->all());
     }
 
     /**
-     * @test that the Arr object is created with an array of simple keys.
+     * @test that the ArrDot object is created with an array of simple keys.
      */
     public function arr_is_created_with_array_simple_keys()
     {
-        $arr = new Arr(['foo' => 'bar']);
+        $arr_dot = new ArrDot(['foo' => 'bar']);
 
-        $this->assertEquals(['foo' => 'bar'], $arr->all());
+        $this->assertEquals(['foo' => 'bar'], $arr_dot->all());
     }
 
     /**
-     * @test that the Arr object is created with an array of composite keys.
+     * @test that the ArrDot object is created with an array of composite keys.
      */
     public function arr_is_created_with_array_composite_keys()
     {
-        $arr = new Arr(['foo.bar' => 'baz', 'qux.corge' => 'grault']);
+        $arr_dot = new ArrDot(['foo.bar' => 'baz', 'qux.corge' => 'grault']);
 
         $this->assertEquals([
             'foo' => [
@@ -48,15 +53,15 @@ class ArrCreateTest extends TestCase
             'qux' => [
                 'corge' => 'grault',
             ],
-        ], $arr->all());
+        ], $arr_dot->all());
     }
 
     /**
-     * @test that the Arr object is created with a multi-dimensional array with simple keys.
+     * @test that the ArrDot object is created with a multi-dimensional array with simple keys.
      */
     public function arr_is_created_with_multi_dimensional_array_simple_keys()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -66,34 +71,34 @@ class ArrCreateTest extends TestCase
             'foo' => [
                 'bar' => 'baz',
             ],
-        ], $arr->all());
+        ], $arr_dot->all());
     }
 
     /**
-     * @test that an empty Arr object is created with the helper function.
+     * @test that an empty ArrDot object is created with the helper function.
      */
     public function empty_arr_is_created_with_helper_function()
     {
-        $arr = sekkr_arr();
+        $arr_dot = ext_arr([], true);
 
-        $this->assertEquals([], $arr->all());
+        $this->assertEquals([], $arr_dot->all());
     }
 
     /**
-     * @test that the Arr object is created with the helper function.
+     * @test that the ArrDot object is created with the helper function.
      */
     public function arr_is_created_with_helper_function()
     {
-        $arr = sekkr_arr([
+        $arr_dot = ext_arr([
             'foo' => [
                 'bar' => 'baz'
             ],
-        ]);
+        ], true);
 
         $this->assertEquals([
             'foo' => [
                 'bar' => 'baz',
             ],
-        ], $arr->all());
+        ], $arr_dot->all());
     }
 }

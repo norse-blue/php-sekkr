@@ -7,18 +7,19 @@
  * @license https://github.com/NorseBlue/Sekkr/blob/master/LICENSE.md
  */
 
-use NorseBlue\Sekkr\Arr as SekkrArr;
+use NorseBlue\Sekkr\Arr;
+use NorseBlue\Sekkr\ArrDot;
 
-if (! function_exists('sekkr_arr')) {
+if (!function_exists('ext_arr')) {
     /**
-     * Creates a new NorseBlue\Sekkr\Arr object with the given array.
+     * Creates a new Arr or ArrDot object with the given items.
      *
-     * @param  array  $items
+     * @param  array $items
      *
-     * @return NorseBlue\Sekkr\Arr
+     * @return Arr|ArrDot
      */
-    function sekkr_arr(array $array = [])
+    function ext_arr(array $items = [], $with_dot_capability = false)
     {
-        return SekkrArr::make($array);
+        return ($with_dot_capability) ? ArrDot::make($items) : Arr::make($items);
     }
 }

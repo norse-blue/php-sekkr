@@ -9,19 +9,24 @@
 
 namespace NorseBlue\Sekkr\Tests;
 
-use NorseBlue\Sekkr\Arr;
+use NorseBlue\Sekkr\ArrDot;
 use PHPUnit\Framework\TestCase;
 
-class ArrGetTest extends TestCase
+/**.
+ * Class ArrDotGetTest
+ *
+ * @package NorseBlue\Sekkr\Tests
+ */
+class ArrDotGetTest extends TestCase
 {
     /**
      * @test that the get method gets all items when no key is given.
      */
     public function get_method_gets_all_items_when_no_key_given()
     {
-        $arr1 = new Arr;
-        $arr2 = new Arr(['foo' => 'bar', 'baz' => 'qux']);
-        $arr3 = new Arr([
+        $arr_dot1 = new ArrDot;
+        $arr_dot2 = new ArrDot(['foo' => 'bar', 'baz' => 'qux']);
+        $arr_dot3 = new ArrDot([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -30,8 +35,8 @@ class ArrGetTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals([], $arr1->get());
-        $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $arr2->get());
+        $this->assertEquals([], $arr_dot1->get());
+        $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $arr_dot2->get());
         $this->assertEquals([
             'foo' => [
                 'bar' => 'baz',
@@ -39,7 +44,7 @@ class ArrGetTest extends TestCase
             'qux' => [
                 'corge' => 'grault',
             ],
-        ], $arr3->get());
+        ], $arr_dot3->get());
     }
 
     /**
@@ -47,21 +52,21 @@ class ArrGetTest extends TestCase
      */
     public function get_method_gets_correct_value_simple_key()
     {
-        $arr = new Arr(['foo' => 'bar', 'baz' => 'qux']);
+        $arr_dot = new ArrDot(['foo' => 'bar', 'baz' => 'qux']);
 
-        $this->assertEquals('bar', $arr->get('foo'));
-        $this->assertEquals('qux', $arr->get('baz'));
+        $this->assertEquals('bar', $arr_dot->get('foo'));
+        $this->assertEquals('qux', $arr_dot->get('baz'));
     }
-    
+
     /**
      * @test that the get method gets the default value when simple key does not exist.
      */
     public function get_method_gets_default_value_simple_key_not_exists()
     {
-        $arr = new Arr(['foo' => 'bar', 'baz' => 'qux']);
+        $arr_dot = new ArrDot(['foo' => 'bar', 'baz' => 'qux']);
 
-        $this->assertEquals(null, $arr->get('corge'));
-        $this->assertEquals(9, $arr->get('grault', 9));
+        $this->assertEquals(null, $arr_dot->get('corge'));
+        $this->assertEquals(9, $arr_dot->get('grault', 9));
     }
 
     /**
@@ -69,7 +74,7 @@ class ArrGetTest extends TestCase
      */
     public function get_method_gets_correct_value_composed_key()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -78,16 +83,16 @@ class ArrGetTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('baz', $arr->get('foo.bar'));
-        $this->assertEquals('grault', $arr->get('qux.corge'));
+        $this->assertEquals('baz', $arr_dot->get('foo.bar'));
+        $this->assertEquals('grault', $arr_dot->get('qux.corge'));
     }
-    
+
     /**
      * @test that the get method gets the default value when composite key does not exist.
      */
     public function get_method_gets_default_value_composite_key_not_exists()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -96,8 +101,8 @@ class ArrGetTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(null, $arr->get('garply.waldo'));
-        $this->assertEquals(9, $arr->get('fred.plugh', 9));
+        $this->assertEquals(null, $arr_dot->get('garply.waldo'));
+        $this->assertEquals(9, $arr_dot->get('fred.plugh', 9));
     }
 
     /**
@@ -105,9 +110,9 @@ class ArrGetTest extends TestCase
      */
     public function get_method_gets_correct_value_array_simple_keys()
     {
-        $arr = new Arr(['foo' => 'bar', 'baz' => 'qux']);
+        $arr_dot = new ArrDot(['foo' => 'bar', 'baz' => 'qux']);
 
-        $this->assertEquals(['bar', 'qux'], $arr->get(['foo', 'baz']));
+        $this->assertEquals(['bar', 'qux'], $arr_dot->get(['foo', 'baz']));
     }
 
     /**
@@ -115,7 +120,7 @@ class ArrGetTest extends TestCase
      */
     public function get_method_gets_correct_value_array_composite_keys()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -124,7 +129,7 @@ class ArrGetTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(['baz', 'grault'], $arr->get(['foo.bar', 'qux.corge']));
+        $this->assertEquals(['baz', 'grault'], $arr_dot->get(['foo.bar', 'qux.corge']));
     }
 
     /**
@@ -132,7 +137,7 @@ class ArrGetTest extends TestCase
      */
     public function get_method_gets_correct_value_array_mixed_keys()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => 'bar',
             'baz' => 'qux',
             'corge' => [
@@ -143,7 +148,8 @@ class ArrGetTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(['bar', 'qux', 'garply', 'plugh'], $arr->get(['foo', 'baz', 'corge.grault', 'waldo.fred']));
+        $this->assertEquals(['bar', 'qux', 'garply', 'plugh'],
+            $arr_dot->get(['foo', 'baz', 'corge.grault', 'waldo.fred']));
     }
 
     /**
@@ -151,10 +157,10 @@ class ArrGetTest extends TestCase
      */
     public function array_access_syntax_gets_correct_value_simple_key()
     {
-        $arr = new Arr(['foo' => 'bar', 'baz' => 'qux']);
+        $arr_dot = new ArrDot(['foo' => 'bar', 'baz' => 'qux']);
 
-        $this->assertEquals('bar', $arr['foo']);
-        $this->assertEquals('qux', $arr['baz']);
+        $this->assertEquals('bar', $arr_dot['foo']);
+        $this->assertEquals('qux', $arr_dot['baz']);
     }
 
     /**
@@ -162,7 +168,7 @@ class ArrGetTest extends TestCase
      */
     public function array_access_syntax_gets_correct_value_composite_key()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -171,8 +177,8 @@ class ArrGetTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals('baz', $arr['foo.bar']);
-        $this->assertEquals('grault', $arr['qux.corge']);
+        $this->assertEquals('baz', $arr_dot['foo.bar']);
+        $this->assertEquals('grault', $arr_dot['qux.corge']);
     }
 
     /**
@@ -180,9 +186,9 @@ class ArrGetTest extends TestCase
      */
     public function array_access_syntax_gets_correct_value_array_simple_keys()
     {
-        $arr = new Arr(['foo' => 'bar', 'baz' => 'qux']);
+        $arr_dot = new ArrDot(['foo' => 'bar', 'baz' => 'qux']);
 
-        $this->assertEquals(['bar', 'qux'], $arr[['foo', 'baz']]);
+        $this->assertEquals(['bar', 'qux'], $arr_dot[['foo', 'baz']]);
     }
 
     /**
@@ -190,7 +196,7 @@ class ArrGetTest extends TestCase
      */
     public function array_access_syntax_gets_correct_value_array_composite_keys()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -199,7 +205,7 @@ class ArrGetTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(['baz', 'grault'], $arr[['foo.bar', 'qux.corge']]);
+        $this->assertEquals(['baz', 'grault'], $arr_dot[['foo.bar', 'qux.corge']]);
     }
 
     /**
@@ -207,7 +213,7 @@ class ArrGetTest extends TestCase
      */
     public function array_access_syntax_gets_correct_value_array_mixed_keys()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => 'bar',
             'baz' => 'qux',
             'corge' => [
@@ -218,6 +224,6 @@ class ArrGetTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(['bar', 'qux', 'garply', 'plugh'], $arr[['foo', 'baz', 'corge.grault', 'waldo.fred']]);
+        $this->assertEquals(['bar', 'qux', 'garply', 'plugh'], $arr_dot[['foo', 'baz', 'corge.grault', 'waldo.fred']]);
     }
 }

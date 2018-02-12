@@ -12,6 +12,11 @@ namespace NorseBlue\Sekkr\Tests;
 use NorseBlue\Sekkr\Arr;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class ArrJsonTest
+ *
+ * @package NorseBlue\Sekkr\Tests
+ */
 class ArrJsonTest extends TestCase
 {
     /**

@@ -9,21 +9,26 @@
 
 namespace NorseBlue\Sekkr\Tests;
 
-use NorseBlue\Sekkr\Arr;
+use NorseBlue\Sekkr\ArrDot;
 use PHPUnit\Framework\TestCase;
 
-class ArrDeleteTest extends TestCase
+/**
+ * Class ArrDotDeleteTest
+ *
+ * @package NorseBlue\Sekkr\Tests
+ */
+class ArrDotDeleteTest extends TestCase
 {
     /**
      * @test that the delete method does nothing when empty array.
      */
     public function delete_method_does_nothing_when_empty_arr()
     {
-        $arr = new Arr;
+        $arr_dot = new ArrDot;
 
-        $arr->delete([]);
+        $arr_dot->delete([]);
 
-        $this->assertEquals([], $arr->all());
+        $this->assertEquals([], $arr_dot->all());
     }
 
     /**
@@ -31,11 +36,11 @@ class ArrDeleteTest extends TestCase
      */
     public function delete_method_correctly_removes_item_simple_key()
     {
-        $arr = new Arr(['foo' => 'bar', 'baz' => 'qux']);
+        $arr_dot = new ArrDot(['foo' => 'bar', 'baz' => 'qux']);
 
-        $arr->delete('foo');
+        $arr_dot->delete('foo');
 
-        $this->assertEquals(['baz' => 'qux'], $arr->all());
+        $this->assertEquals(['baz' => 'qux'], $arr_dot->all());
     }
 
     /**
@@ -43,7 +48,7 @@ class ArrDeleteTest extends TestCase
      */
     public function delete_method_correctly_removes_item_composite_key()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -52,14 +57,14 @@ class ArrDeleteTest extends TestCase
             ],
         ]);
 
-        $arr->delete('foo.bar');
+        $arr_dot->delete('foo.bar');
 
         $this->assertEquals([
             'foo' => [],
             'qux' => [
                 'corge' => 'grault',
             ],
-        ], $arr->all());
+        ], $arr_dot->all());
     }
 
     /**
@@ -67,11 +72,11 @@ class ArrDeleteTest extends TestCase
      */
     public function array_access_correctly_removes_item_simple_key()
     {
-        $arr = new Arr(['foo' => 'bar', 'baz' => 'qux']);
+        $arr_dot = new ArrDot(['foo' => 'bar', 'baz' => 'qux']);
 
-        unset($arr['foo']);
+        unset($arr_dot['foo']);
 
-        $this->assertEquals(['baz' => 'qux'], $arr->all());
+        $this->assertEquals(['baz' => 'qux'], $arr_dot->all());
     }
 
     /**
@@ -79,7 +84,7 @@ class ArrDeleteTest extends TestCase
      */
     public function array_access_correctly_removes_item_composite_key()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -88,13 +93,13 @@ class ArrDeleteTest extends TestCase
             ],
         ]);
 
-        unset($arr['foo.bar']);
+        unset($arr_dot['foo.bar']);
 
         $this->assertEquals([
             'foo' => [],
             'qux' => [
                 'corge' => 'grault',
             ],
-        ], $arr->all());
+        ], $arr_dot->all());
     }
 }

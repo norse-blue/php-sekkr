@@ -9,20 +9,25 @@
 
 namespace NorseBlue\Sekkr\Tests;
 
-use NorseBlue\Sekkr\Arr;
+use NorseBlue\Sekkr\ArrDot;
 use PHPUnit\Framework\TestCase;
 
-class ArrIterateTest extends TestCase
+/**
+ * Class ArrDotIterateTest
+ *
+ * @package NorseBlue\Sekkr\Tests
+ */
+class ArrDotIterateTest extends TestCase
 {
     /**
-     * @test that an empty Arr object can be traversed.
+     * @test that an empty ArrDot object can be traversed.
      */
     public function empty_arr_object_can_be_traversed()
     {
-        $arr = new Arr;
+        $arr_dot = new ArrDot;
         $count = 0;
 
-        foreach($arr as $item){
+        foreach ($arr_dot as $item) {
             $count++;
         }
 
@@ -30,14 +35,14 @@ class ArrIterateTest extends TestCase
     }
 
     /**
-     * @test that the Arr object with simple keys can be traversed.
+     * @test that the ArrDot object with simple keys can be traversed.
      */
     public function arr_object_with_simple_keys_can_be_traversed()
     {
-        $arr = new Arr(['foo' => 'bar', 'baz' => 'qux']);
+        $arr_dot = new ArrDot(['foo' => 'bar', 'baz' => 'qux']);
         $count = 0;
 
-        foreach($arr as $item){
+        foreach ($arr_dot as $item) {
             $count++;
         }
 
@@ -45,11 +50,11 @@ class ArrIterateTest extends TestCase
     }
 
     /**
-     * @test that the Arr object with composite keys can be traversed.
+     * @test that the ArrDot object with composite keys can be traversed.
      */
     public function arr_object_with_composite_keys_can_be_traversed()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -59,7 +64,7 @@ class ArrIterateTest extends TestCase
         ]);
         $count = 0;
 
-        foreach($arr as $item){
+        foreach ($arr_dot as $item) {
             $count++;
         }
 

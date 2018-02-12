@@ -9,34 +9,39 @@
 
 namespace NorseBlue\Sekkr\Tests;
 
-use InvalidArgumentException;
-use NorseBlue\Sekkr\Arr;
+use NorseBlue\Sekkr\ArrDot;
 use PHPUnit\Framework\TestCase;
 
-class ArrHasTest extends TestCase
+/**
+ * Class ArrDotHasTest
+ *
+ * @package NorseBlue\Sekkr\Tests
+ */
+class ArrDotHasTest extends TestCase
 {
     /**
      * @test that the has method returns false when no key is given.
      */
     public function has_method_returns_false_when_no_key_given()
     {
-        $arr = new Arr(['foo' => 'bar', 'baz' => ' qux']);
+        $arr_dot = new ArrDot(['foo' => 'bar', 'baz' => ' qux']);
 
-        $this->assertFalse($arr->has([]));
+        $this->assertFalse($arr_dot->has([]));
     }
+
     /**
      * @test that the has method returns the correct value for simple key.
      */
     public function has_method_returns_correct_value_simple_key()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => 'bar',
             'baz' => 'qux',
         ]);
 
-        $this->assertTrue($arr->has('foo'));
-        $this->assertTrue($arr->has('baz'));
-        $this->assertFalse($arr->has('corge'));
+        $this->assertTrue($arr_dot->has('foo'));
+        $this->assertTrue($arr_dot->has('baz'));
+        $this->assertFalse($arr_dot->has('corge'));
     }
 
     /**
@@ -44,7 +49,7 @@ class ArrHasTest extends TestCase
      */
     public function has_method_returns_correct_value_composite_key()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -53,9 +58,9 @@ class ArrHasTest extends TestCase
             ],
         ]);
 
-        $this->assertTrue($arr->has('foo.bar'));
-        $this->assertTrue($arr->has('qux.corge'));
-        $this->assertFalse($arr->has('waldo.fred'));
+        $this->assertTrue($arr_dot->has('foo.bar'));
+        $this->assertTrue($arr_dot->has('qux.corge'));
+        $this->assertFalse($arr_dot->has('waldo.fred'));
     }
 
     /**
@@ -63,13 +68,13 @@ class ArrHasTest extends TestCase
      */
     public function has_method_returns_correct_value_array_simple_key()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => 'bar',
             'baz' => 'qux',
         ]);
 
-        $this->assertTrue($arr->has(['foo', 'baz']));
-        $this->assertFalse($arr->has(['foo', 'baz', 'corge']));
+        $this->assertTrue($arr_dot->has(['foo', 'baz']));
+        $this->assertFalse($arr_dot->has(['foo', 'baz', 'corge']));
     }
 
     /**
@@ -77,7 +82,7 @@ class ArrHasTest extends TestCase
      */
     public function has_method_returns_correct_value_array_composite_key()
     {
-        $arr = new Arr([
+        $arr_dot = new ArrDot([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -86,18 +91,7 @@ class ArrHasTest extends TestCase
             ],
         ]);
 
-        $this->assertTrue($arr->has(['foo.bar', 'qux.corge']));
-        $this->assertFalse($arr->has(['foo.bar', 'qux.corge', 'waldo.fred']));
-    }
-
-    /**
-     * @test that the has method throws an exception when a non int or string key is used.
-     */
-    public function has_method_throws_exception_when_non_int_or_string_key_is_used()
-    {
-        $arr = new Arr;
-
-        $this->expectException(InvalidArgumentException::class);
-        $arr->has(0.0);
+        $this->assertTrue($arr_dot->has(['foo.bar', 'qux.corge']));
+        $this->assertFalse($arr_dot->has(['foo.bar', 'qux.corge', 'waldo.fred']));
     }
 }

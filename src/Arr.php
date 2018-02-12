@@ -9,47 +9,48 @@
 
 namespace NorseBlue\Sekkr;
 
-use ArrayAccess;
 use ArrayIterator;
-use Countable;
-use InvalidArgumentException;
-use IteratorAggregate;
 use JsonSerializable;
+use NorseBlue\Sekkr\Exceptions\ValueNotCountableException;
+use NorseBlue\Sekkr\Contracts\ExtendedArray;
+use OutOfBoundsException;
 use Traversable;
 
 /**
- * NorseBlue\Sekkr\Arr
+ * Class Arr
  *
- * @see https://github.com/adbario/php-dot-notation Based on the work of Riku Särkinen (@adbario)
+ * @package NorseBlue\Sekkr
  */
-class Arr implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
+class Arr implements ExtendedArray, JsonSerializable
 {
+    //region ========== Properties ==========
     /**
-     * The underlying array.
+     * The items contained in the array.
      *
      * @var array
      */
     protected $items = [];
+    //endregion
 
     //region ========== Static ==========
-
     /**
-     * Creates a new Arr object.
+     * Creates a new instance with the given items.
      *
      * @param array $items
+     *
      * @return Arr
      */
     public static function make(array $items = []): self
     {
-        return new Arr($items);
+        return new static($items);
     }
-    //region
+    //endregion
 
     //region ========== Constructor ==========
     /**
-     * Creates a new instance.
+     * Arr constructor.
      *
-     * @param  array $items
+     * @param array $items
      */
     public function __construct(array $items = [])
     {
@@ -57,76 +58,9 @@ class Arr implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
     }
     //endregion
 
-    //region ========== Implements ArrayAccess ==========
+    //region ========== Implements ArrayIterator ==========
     /**
-     * Check if the given key exists.
-     *
-     * @param  int|string $key
-     *
-     * @return bool
-     */
-    public function offsetExists($key): bool
-    {
-        return $this->has($key);
-    }
-
-    /**
-     * Return the value of the given key.
-     *
-     * @param  int|string $key
-     *
-     * @return mixed
-     */
-    public function offsetGet($key)
-    {
-        return $this->get($key);
-    }
-
-    /**
-     * Set the given value to the given key.
-     *
-     * @param  int|string|null $key
-     * @param  mixed           $value
-     *
-     * @return void
-     */
-    public function offsetSet($key, $value): void
-    {
-        $this->set($key, $value);
-    }
-
-    /**
-     * Delete the given key.
-     *
-     * @param  int|string $key
-     *
-     * @return void
-     */
-    public function offsetUnset($key): void
-    {
-        $this->delete($key);
-    }
-    //endregion
-
-    //region ========== Implements Countable ==========
-    /**
-     * Count the number of items for a specified key.
-     *
-     * @param int|string|null $key
-     *
-     * @return int
-     */
-    public function count($key = null): int
-    {
-        $value = $this->get($key);
-
-        return (is_array($value) || $value instanceof Countable)? count($value) : 0;
-    }
-    //endregion
-
-    //region ========== Implements IteratorAggregate ==========
-    /**
-     * Get an iterator for the stored items.
+     * Retrieve an external iterator.
      *
      * @return Traversable
      */
@@ -136,21 +70,60 @@ class Arr implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
     }
     //endregion
 
-    //region ========== Implements JsonSerializable ==========
+    //region ========== Implements ArrayAccess ==========
     /**
-     * Return items for JSON serialization.
+     * Whether an offset exists or not.
      *
-     * @return array
+     * @param mixed $offset
+     *
+     * @return boolean
      */
-    public function jsonSerialize(): array
+    public function offsetExists($offset): bool
     {
-        return $this->items;
+        return $this->has($offset);
+    }
+
+    /**
+     * Offset to retrieve.
+     *
+     * @param mixed $offset
+     *
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->get($offset, null, true);
+    }
+
+    /**
+     * Offset to set.
+     *
+     * @param mixed $offset
+     * @param mixed $value
+     *
+     * @return void
+     */
+    public function offsetSet($offset, $value): void
+    {
+        $this->set($offset, $value);
+    }
+
+    /**
+     * Offset to unset.
+     *
+     * @param mixed $offset
+     *
+     * @return void
+     */
+    public function offsetUnset($offset): void
+    {
+        $this->delete($offset);
     }
     //endregion
 
-    //region ========== Private/Protected Methods ==========
+    //region ========== Implements ExtendedArray ==========
     /**
-     * Return the items as an array.
+     * Returns all items in the array.
      *
      * @return array
      */
@@ -160,32 +133,109 @@ class Arr implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
     }
 
     /**
-     * Checks if the given key exists in the given array.
+     * Returns whether the item(s) specified by $key is(are) blank (empty) or not.
+     * If $keys is set to null, it will check if the whole array is empty.
      *
-     * @param  int|string $key
-     * @param  array      $array
+     * @param int|string|array|null $keys
      *
-     * @return bool
+     * @return bool|array
+     * @throws OutOfBoundsException
      */
-    protected function exists($key, array $array): bool
+    public function blank($keys = null)
     {
-        if (!is_int($key) && !is_string($key)) {
-            throw new InvalidArgumentException(sprintf(
-                'The $key value should be either a string or an integer, \'%s\' given.',
-                gettype($key)
-            ));
+        if (is_null($keys)) {
+            return empty($this->items);
         }
 
-        // TODO: make this compatible with the dot access syntax
-        return array_key_exists($key, $array);
-    }
-    //endregion
+        if (is_array($keys)) {
+            $blanks = [];
+            foreach ($keys as $key) {
+                $blanks[$key] = empty($this->items[$key]);
+            }
+            return $blanks;
+        }
 
-    //region ========== Public Methods ==========
+        if ($this->has($keys)) {
+            return empty($this->items[$keys]);
+        }
+
+        throw new OutOfBoundsException(sprintf('Undefined index: %s', $keys));
+    }
+
     /**
-     * Delete the given key or keys.
+     * Clears (sets the value to an empty array) the item(s) specified by $key only if they exist.
+     * If $key is set to null, the whole array will be cleared.
      *
-     * @param  array|int|string $keys
+     * @param int|string|array|null $keys
+     *
+     * @return void
+     */
+    public function clear($keys = null): void
+    {
+        if (is_null($keys)) {
+            $this->items = [];
+            return;
+        }
+
+        if (is_array($keys)) {
+            foreach ($keys as $key) {
+                $this->set($key, []);
+            }
+            return;
+        }
+
+        if ($this->has($keys)) {
+            $this->set($keys, []);
+            return;
+        }
+    }
+
+    /**
+     * Returns the number of elements of the item(s) specified by $key.
+     * If $keys is set to null, the count will be over the items array.
+     *
+     * @param int|string|array|null $keys
+     * @param bool                  $throw_exception
+     *
+     * @return int|array
+     */
+    public function count($keys = null, $throw_exception = false)
+    {
+        if (is_null($keys)) {
+            return count($this->items);
+        }
+
+        if (is_array($keys)) {
+            $counts = [];
+            foreach ($keys as $key) {
+                $counts[$key] = $this->count($key);
+            }
+            return $counts;
+        }
+
+        if ($this->has($keys)) {
+            $value = $this->items[$keys];
+            if (is_array($value) || $value instanceof Countable) {
+                return count($value);
+            }
+
+            if ($throw_exception) {
+                throw new ValueNotCountableException(
+                    sprintf('The value at index \'%s\' is not countable.', $keys),
+                    gettype($value)
+                );
+            }
+
+            return 0;
+        }
+
+        throw new OutOfBoundsException(sprintf('Undefined index: %s', $keys));
+    }
+
+    /**
+     * Deletes the item(s) specified by $key.
+     *
+     * @param int|string|array $keys
      *
      * @return void
      */
@@ -193,126 +243,78 @@ class Arr implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
     {
         $keys = (array)$keys;
         foreach ($keys as $key) {
-            if ($this->exists($key, $this->items)) {
-                unset($this->items[$key]);
-                continue;
-            }
-
-            $items = &$this->items;
-            $segments = explode('.', $key);
-            $lastSegment = array_pop($segments);
-            foreach ($segments as $segment) {
-                if (!isset($items[$segment]) || !is_array($items[$segment])) {
-                    continue 2;
-                }
-                $items = &$items[$segment];
-            }
-            unset($items[$lastSegment]);
+            unset($this->items[$key]);
         }
     }
 
     /**
-     * Gets the value of the given key or, if not exists, the default value.
+     * Gets the value of item(s) specified by $key. If the item does not exist the default value is returned.
+     * When $key is set to null all items are returned.
      *
-     * @param  int|string|null $key
-     * @param  mixed           $default
+     * @param int|string|array|null $keys
+     * @param mixed                 $default
+     * @param bool                  $throw_exception
+     *
+     * @return mixed
+     * @throws OutOfBoundsException
+     */
+    public function get($keys = null, $default = null, $throw_exception = false)
+    {
+        if (is_null($keys)) {
+            return $this->items;
+        }
+
+        if (is_array($keys)) {
+            $values = [];
+            foreach ($keys as $key) {
+                $values[$key] = $this->get($key, $default, $throw_exception);
+            }
+            return $values;
+        }
+
+        if ($this->has($keys)) {
+            return $this->items[$keys];
+        }
+
+        if ($throw_exception) {
+            throw new OutOfBoundsException(sprintf('Undefined index: %s', $keys));
+        }
+
+        return $default;
+    }
+
+    /**
+     * Returns whether the item(s) specified by $key exist in the array or not.
+     *
+     * @param int|string|array $keys
      *
      * @return mixed
      */
-    public function get($key = null, $default = null)
+    public function has($keys)
     {
-        if (is_null($key)) {
-            return $this->all();
-        }
-
-        if (is_array($key)) {
-            $result = [];
-            foreach ($key as $k) {
-                $result[] = $this->get($k, $default);
+        if (is_array($keys)) {
+            $has = [];
+            foreach ($keys as $key) {
+                $has[$key] = array_key_exists($key, $this->items);
             }
-            return $result;
+            return $has;
         }
 
-        if ($this->exists($key, $this->items)) {
-            return $this->items[$key];
-        }
-
-        if (strpos($key, '.') === false) {
-            return $default;
-        }
-
-        $items = $this->items;
-        foreach (explode('.', $key) as $segment) {
-            if (!is_array($items) || !$this->exists($segment, $items)) {
-                return $default;
-            }
-            $items = &$items[$segment];
-        }
-        return $items;
+        return array_key_exists($keys, $this->items);
     }
 
     /**
-     * Check if the given key exists or all of the given keys exist.
+     * Sets the value of the item(s) specified by $key. If $key is set to null then a new item will be created with
+     * the index set as per PHP array rules. If $prevent_replace is set to true and the item already exists in
+     * the array, then the value will not be replaced.
      *
-     * @param  int|string|array $keys
-     *
-     * @return bool
-     */
-    public function has($keys): bool
-    {
-        $keys = (array)$keys;
-        if (empty($keys)) {
-            return false;
-        }
-
-        foreach ($keys as $key) {
-            $items = $this->items;
-            if ($this->exists($key, $items)) {
-                continue;
-            }
-
-            foreach (explode('.', $key) as $segment) {
-                if (!is_array($items) || !$this->exists($segment, $items)) {
-                    return false;
-                }
-                $items = $items[$segment];
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Check if a given key or keys are empty.
-     *
-     * @param  array|int|string|null $keys
-     *
-     * @return bool
-     */
-    public function isEmpty($keys = null)
-    {
-        if (is_null($keys)) {
-            return empty($this->items);
-        }
-
-        $keys = (array)$keys;
-        foreach ($keys as $key) {
-            if (!empty($this->get($key))) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Set the given key / value pair or pairs.
-     *
-     * @param  array|int|string $keys
-     * @param  mixed            $value
+     * @param int|string|array|null $keys
+     * @param mixed                 $value
+     * @param bool                  $prevent_replace
      *
      * @return void
      */
-    public function set($keys, $value = null): void
+    public function set($keys = null, $value = null, $prevent_replace = false): void
     {
         if (is_null($keys)) {
             $this->items[] = $value;
@@ -320,25 +322,29 @@ class Arr implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
         }
 
         if (is_array($keys)) {
-            if (is_array($value) && (count($keys) == count($value))) {
-                $keys = array_combine($keys, $value);
-            }
-
             foreach ($keys as $key => $value) {
                 $this->set($key, $value);
             }
             return;
         }
 
-        $items = &$this->items;
-        foreach (explode('.', $keys) as $key) {
-            if (!isset($items[$key]) || !is_array($items[$key])) {
-                $items[$key] = [];
-            }
-            $items = &$items[$key];
+        if ($this->has($keys) && $prevent_replace) {
+            return;
         }
 
-        $items = $value;
+        $this->items[$keys] = $value;
+    }
+    //endregion
+
+    //region ========== Implements JsonSerializable ==========
+    /**
+     * Specify data which should be serialized to JSON.
+     *
+     * @return array
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->items;
     }
     //endregion
 }
