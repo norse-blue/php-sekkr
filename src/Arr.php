@@ -10,6 +10,7 @@
 namespace NorseBlue\Sekkr;
 
 use ArrayIterator;
+use Countable;
 use JsonSerializable;
 use NorseBlue\Sekkr\Exceptions\ValueNotCountableException;
 use NorseBlue\Sekkr\Contracts\ExtendedArray;
